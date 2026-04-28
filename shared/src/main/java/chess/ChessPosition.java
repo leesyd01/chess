@@ -33,4 +33,9 @@ public class ChessPosition {
         return col;
 //        throw new RuntimeException("Not implemented");
     }
+
+    @Override
+    public String toString() {
+        return String.format("[%d,%d]", row, col);
+    }
 }
