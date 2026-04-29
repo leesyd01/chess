@@ -79,16 +79,21 @@ public class ChessPiece {
 
                     if (occupant == null) {
                         moves.add(new ChessMove(myPosition, endPos, null));
-                    } else if {
+//                    } else if () {
                         // capture move
-                    } else {
-                        // friendly piece, just stop
+                    } else if () {
+                        // edge of board; can't move
+//                    } else {
+                        // friendly piece, just stop }
                     }
+
+                    r += dir[0];
+                    c += dir[1];
                 }
-
-
             }
+            return moves;
         }
+
         if (piece.getPieceType() == PieceType.KNIGHT) {
             return List.of(new ChessMove(myPosition, new ChessPosition(myPosition.getRow(), myPosition.getColumn()),
                     null));
