@@ -68,9 +68,16 @@ public class ChessPiece {
         if (piece.getPieceType() == PieceType.BISHOP) {
             ArrayList<ChessMove> moves = new ArrayList<>();
             int[][] directions = {{1, 1}, {-1, -1}, {-1, 1}, {1, -1}};
+
             for (int[] dir : directions) {
                 int r = myPosition.getRow() + dir[0];
                 int c = myPosition.getColumn() + dir[1];
+
+                while (r >= 1 && r <= 8 && c >= 1 && c <=8 ) {
+                    ChessPosition endPos = new ChessPosition(r, c);
+                    ChessPiece occupant = board.getPiece(endPos);
+                }
+
             }
         }
         if (piece.getPieceType() == PieceType.KNIGHT) {
