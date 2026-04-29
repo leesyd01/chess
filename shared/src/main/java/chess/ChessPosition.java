@@ -36,11 +36,21 @@ public class ChessPosition {
     public String toString() {
         return String.format("[%d,%d]", row, col);
     }
+
+    @Override
     public int hashCode() {
         int hash = 7;
         hash = 31 * hash + row;
         hash = 31 * hash + col;
         return hash;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) { return true; }
+        if (o == null || getClass() != o.getClass()) { return false; }
+        ChessPosition other = (ChessPosition) o;
+        return this.row == other.row && this.col == other.col;
     }
 }
 

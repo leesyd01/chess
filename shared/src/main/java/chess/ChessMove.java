@@ -45,4 +45,10 @@ public class ChessMove {
     public String toString() {
         return String.format("%s%s", startPosition, endPosition);
     }
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + startPosition.getRow();
+        hash = 31 * hash + startPosition.getColumn();
+        return hash;
+    }
 }
