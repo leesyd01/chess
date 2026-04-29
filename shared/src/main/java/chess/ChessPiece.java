@@ -57,23 +57,28 @@ public class ChessPiece {
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         ChessPiece piece = board.getPiece(myPosition);
         if (piece.getPieceType() == PieceType.KING) {
-            return List.of(new ChessMove(new ChessPosition(myPosition.getRow(), myPosition.getColumn()),
-                    new ChessPosition(myPosition.getRow(), myPosition.getColumn()), null));
+            return List.of(new ChessMove(myPosition, new ChessPosition(myPosition.getRow(), myPosition.getColumn()),
+                    null));
         }
         else if (piece.getPieceType() == PieceType.QUEEN) {
-            return List.of(new ChessMove(new ChessPosition(5,4), new ChessPosition(1,8), null)); // hardcoded
+            return List.of(new ChessMove(myPosition, new ChessPosition(myPosition.getRow(), myPosition.getColumn()),
+                    null));
         }
         else if (piece.getPieceType() == PieceType.BISHOP) {
-            return List.of(new ChessMove(new ChessPosition(5,4), new ChessPosition(1,8), null)); // hardcoded
+            return List.of(new ChessMove(myPosition, new ChessPosition(myPosition.getRow(), myPosition.getColumn()),
+                    null));
         }
         else if (piece.getPieceType() == PieceType.KNIGHT) {
-            return List.of(new ChessMove(new ChessPosition(5,4), new ChessPosition(1,8), null)); // hardcoded
+            return List.of(new ChessMove(myPosition, new ChessPosition(myPosition.getRow(), myPosition.getColumn()),
+                    null));
         }
         else if (piece.getPieceType() == PieceType.ROOK) {
-            return List.of(new ChessMove(new ChessPosition(5,4), new ChessPosition(1,8), null)); // hardcoded
+            return List.of(new ChessMove(myPosition, new ChessPosition(myPosition.getRow(), myPosition.getColumn()),
+                    null));
         }
         else if (piece.getPieceType() == PieceType.PAWN) {
-            return List.of(new ChessMove(new ChessPosition(5,4), new ChessPosition(1,8), null)); // hardcoded
+            return List.of(new ChessMove(myPosition, new ChessPosition(myPosition.getRow(), myPosition.getColumn()),
+                    null));
         }
         return List.of();
     }
