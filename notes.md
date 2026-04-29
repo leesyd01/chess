@@ -30,8 +30,8 @@ use to exercise and validate game play
   - `public int hashCode() {
         int hash = 7; 
         hash = 31 * hash + (int) id; // use a prime number \n
-        hash 31 * hash + (name == null ? 0 : name.hashCode());
-        hash 31 * + (email == null ? 0 : email.hashCode());
+        hash = 31 * hash + (name == null ? 0 : name.hashCode());
+        hash = 31 * + (email == null ? 0 : email.hashCode());
         return hash;
   }`
 

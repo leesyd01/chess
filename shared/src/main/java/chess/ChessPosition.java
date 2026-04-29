@@ -36,4 +36,12 @@ public class ChessPosition {
     public String toString() {
         return String.format("[%d,%d]", row, col);
     }
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + row;
+        hash = 31 * hash + col;
+        return hash;
+    }
 }
+
+

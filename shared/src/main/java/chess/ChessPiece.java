@@ -67,7 +67,7 @@ public class ChessPiece {
         }
         if (piece.getPieceType() == PieceType.BISHOP) {
             ArrayList<ChessMove> moves = new ArrayList<>();
-            int[][] directions = {{1, 1}, {-1, -1}, {-1, 1}, {1, -1}};
+            int[][] directions = {{1, 1}, {-1, 1}, {1, -1}, {-1, -1}};
 
             for (int[] dir : directions) {
                 int r = myPosition.getRow() + dir[0];
@@ -81,10 +81,9 @@ public class ChessPiece {
                         moves.add(new ChessMove(myPosition, endPos, null));
                     } else if (occupant.getTeamColor() != piece.getTeamColor()) {
                         moves.add(new ChessMove(myPosition, endPos, null));
+                        break;
                     } else {
                         break;
-//                    } else {
-                        // friendly piece, just stop }
                     }
 
                     r += dir[0];
