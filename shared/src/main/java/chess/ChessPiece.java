@@ -59,6 +59,21 @@ public class ChessPiece {
         if (piece.getPieceType() == PieceType.BISHOP) {
             return List.of(new ChessMove(new ChessPosition(5,4), new ChessPosition(1,8), null)); // hardcoded
         }
+        if (piece.getPieceType() == PieceType.KING) {
+            throw new RuntimeException("Not implemented");
+        }
+        if (piece.getPieceType() == PieceType.QUEEN) {
+            throw new RuntimeException("Not implemented");
+        }
+        if (piece.getPieceType() == PieceType.KNIGHT) {
+            throw new RuntimeException("Not implemented");
+        }
+        if (piece.getPieceType() == PieceType.ROOK) {
+            throw new RuntimeException("Not implemented");
+        }
+        if (piece.getPieceType() == PieceType.PAWN) {
+            throw new RuntimeException("Not implemented");
+        }
         return List.of();
     }
 }
