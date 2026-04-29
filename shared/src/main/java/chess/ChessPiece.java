@@ -1,5 +1,6 @@
 package chess;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -60,23 +61,27 @@ public class ChessPiece {
             return List.of(new ChessMove(myPosition, new ChessPosition(myPosition.getRow(), myPosition.getColumn()),
                     null));
         }
-        else if (piece.getPieceType() == PieceType.QUEEN) {
+        if (piece.getPieceType() == PieceType.QUEEN) {
             return List.of(new ChessMove(myPosition, new ChessPosition(myPosition.getRow(), myPosition.getColumn()),
                     null));
         }
-        else if (piece.getPieceType() == PieceType.BISHOP) {
+        if (piece.getPieceType() == PieceType.BISHOP) {
+            ArrayList<ChessMove> moves = new ArrayList<>();
+            int[][] directions = {{1, 1}, {-1, -1}, {-1, 1}, {1, -1}};
+            for (int[] dir : directions) {
+                int r = myPosition.getRow() + dir[0];
+                int c = myPosition.getColumn() + dir[1];
+            }
+        }
+        if (piece.getPieceType() == PieceType.KNIGHT) {
             return List.of(new ChessMove(myPosition, new ChessPosition(myPosition.getRow(), myPosition.getColumn()),
                     null));
         }
-        else if (piece.getPieceType() == PieceType.KNIGHT) {
+        if (piece.getPieceType() == PieceType.ROOK) {
             return List.of(new ChessMove(myPosition, new ChessPosition(myPosition.getRow(), myPosition.getColumn()),
                     null));
         }
-        else if (piece.getPieceType() == PieceType.ROOK) {
-            return List.of(new ChessMove(myPosition, new ChessPosition(myPosition.getRow(), myPosition.getColumn()),
-                    null));
-        }
-        else if (piece.getPieceType() == PieceType.PAWN) {
+        if (piece.getPieceType() == PieceType.PAWN) {
             return List.of(new ChessMove(myPosition, new ChessPosition(myPosition.getRow(), myPosition.getColumn()),
                     null));
         }
