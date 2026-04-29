@@ -81,7 +81,7 @@ public class ChessPiece {
                         moves.add(new ChessMove(myPosition, endPos, null));
                     } else if (occupant.getTeamColor() != piece.getTeamColor()) {
                         moves.add(new ChessMove(myPosition, endPos, null));
-                    } else if (occupant.getTeamColor() == piece.getTeamColor()) {
+                    } else {
                         break;
 //                    } else {
                         // friendly piece, just stop }
