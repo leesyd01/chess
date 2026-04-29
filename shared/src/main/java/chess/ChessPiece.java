@@ -74,9 +74,18 @@ public class ChessPiece {
                 int c = myPosition.getColumn() + dir[1];
 
                 while (r >= 1 && r <= 8 && c >= 1 && c <=8 ) {
-                    ChessPosition endPos = new ChessPosition(r, c);
+                    ChessPosition endPos = new ChessPosition(r, c); // end position
                     ChessPiece occupant = board.getPiece(endPos);
+
+                    if (occupant == null) {
+                        moves.add(new ChessMove(myPosition, endPos, null));
+                    } else if {
+                        // capture move
+                    } else {
+                        // friendly piece, just stop
+                    }
                 }
+
 
             }
         }
