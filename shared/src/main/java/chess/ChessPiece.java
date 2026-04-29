@@ -79,10 +79,10 @@ public class ChessPiece {
 
                     if (occupant == null) {
                         moves.add(new ChessMove(myPosition, endPos, null));
-//                    } else if () {
-                        // capture move
-                    } else if () {
-                        // edge of board; can't move
+                    } else if (occupant.getTeamColor() != piece.getTeamColor()) {
+                        moves.add(new ChessMove(myPosition, endPos, null));
+                    } else if (occupant.getTeamColor() == piece.getTeamColor()) {
+                        break;
 //                    } else {
                         // friendly piece, just stop }
                     }
