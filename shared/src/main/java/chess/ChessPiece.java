@@ -58,13 +58,37 @@ public class ChessPiece {
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         ChessPiece piece = board.getPiece(myPosition);
         if (piece.getPieceType() == PieceType.KING) {
-            return List.of(new ChessMove(myPosition, new ChessPosition(myPosition.getRow(), myPosition.getColumn()),
-                    null));
+            ArrayList<ChessMove> moves = new ArrayList<>();
+            int[][] directions = {{0, 1}, {0, -1}, {1, 1}, {-1, -1}, {1, 0}, {-1, 0}}; // put in moves
+
+            for (int[] dir : directions) {
+                int r = myPosition.getRow() + dir[0];
+                int c = myPosition.getColumn() + dir[1];
+
+                while (r >= 1 && r <= 8 && c >= 1 && c <= 8) {
+                    ChessPosition endPos = new ChessPosition(r, c);
+                    ChessPiece occupant = board.getPiece(endPos);
+
+                    if (occupant == null) {
+                        moves.add(new ChessMove(myPosition, endPos, null));
+                    } else if (occupant.getTeamColor() != piece.getTeamColor()) {
+                        moves.add(new ChessMove(myPosition, endPos, null));
+                        break;
+                    } else {
+                        break;
+                    }
+                    r += dir[0];
+                    c += dir[1];
+                }
+            }
+            return moves;
         }
+
         if (piece.getPieceType() == PieceType.QUEEN) {
             return List.of(new ChessMove(myPosition, new ChessPosition(myPosition.getRow(), myPosition.getColumn()),
                     null));
         }
+
         if (piece.getPieceType() == PieceType.BISHOP) {
             ArrayList<ChessMove> moves = new ArrayList<>();
             int[][] directions = {{1, 1}, {-1, 1}, {1, -1}, {-1, -1}};
