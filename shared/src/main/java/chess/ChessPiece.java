@@ -83,7 +83,7 @@ public class ChessPiece {
 
         if (piece.getPieceType() == PieceType.QUEEN) {
             ArrayList<ChessMove> moves = new ArrayList<>();
-            int[][] directions = {{0, 1}, {0, -1}, {1, 1}, {-1, 1}, {1, -1}, {-1, -1}, {1, 0}, {-1, 0}}; // put in moves
+            int[][] directions = {{0, 1}, {0, -1}, {1, 1}, {-1, 1}, {1, -1}, {-1, -1}, {1, 0}, {-1, 0}};
 
             for (int[] dir : directions) {
                 int r = myPosition.getRow() + dir[0];
@@ -233,11 +233,19 @@ public class ChessPiece {
                     moves.add(new ChessMove(myPosition, pawnCaptureLeft, null));
                 }
 
+                // promotion pieces
+                if (r == 8 || r == 1) {
+                    moves.add(new ChessMove(myPosition, endPos, PieceType.QUEEN));
+                    moves.add(new ChessMove(myPosition, endPos, PieceType.ROOK));
+                    moves.add(new ChessMove(myPosition, endPos, PieceType.KNIGHT));
+                    moves.add(new ChessMove(myPosition, endPos, PieceType.BISHOP));
+                }
+
             }
 
                 // DONE - if occupant is empty: move forward one (1+ or 8- depending on color)
                 // DONE - if occupant and occupant + 1 is empty: move forward 2 (direction depends on color)
-                // if diagonal has enemy occupant (occupant != null): capture and move to spot
+                // DONE - if diagonal has enemy occupant (occupant != null): capture and move to spot
                 // promotion: turn into queen, rook, bishop, knight
 
 //                 else if (occupant.getTeamColor() != piece.getTeamColor()) {
