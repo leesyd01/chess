@@ -209,33 +209,42 @@ public class ChessPiece {
                     moves.add(new ChessMove(myPosition, endPos, null));
                 }
 
-                if (myPosition.getRow() == 2) { // white pawn
+                if (myPosition.getRow() == 2) { // white pawn moves two spaces forward
                     moves.add(new ChessMove(myPosition, pawnTwoMoves, null));
                 }
 
-                if (myPosition.getRow() == 7) { // black pawn
+                if (myPosition.getRow() == 7) { // black pawn moves two spaces forward
                     moves.add(new ChessMove(myPosition, pawnTwoMoves, null));
-
                 }
 
+                // right side capture
+                ChessPosition pawnCaptureRight = new ChessPosition(r, c + 1);
+                ChessPiece pawnCaptureRightOcc = board.getPiece(pawnCaptureRight);
 
+                // left side capture
+                ChessPosition pawnCaptureLeft = new ChessPosition(r, c - 1);
+                ChessPiece pawnCaptureLeftOcc = board.getPiece(pawnCaptureRight);
 
-                }
-
-                // if occupant is empty: move forward one (1+ or 8- depending on color)
-                // if occupant and occupant + 1 is empty: move forward 2 (direction depends on color)
-                // if diagonal has enemy occupant (occupant != null): capture and move to spot
-                // promotion: turn into queen, rook, bishop, knight
-
-                 else if (occupant.getTeamColor() != piece.getTeamColor()) {
+                if (board.getPiece(new ChessPosition(r, myPosition.getColumn() + 1) && occupant.getTeamColor() != piece.getTeamColor() && (occupant != null) {
                     moves.add(new ChessMove(myPosition, endPos, null));
                 }
 
+            }
+
+                // DONE - if occupant is empty: move forward one (1+ or 8- depending on color)
+                // DONE - if occupant and occupant + 1 is empty: move forward 2 (direction depends on color)
+                // if diagonal has enemy occupant (occupant != null): capture and move to spot
+                // promotion: turn into queen, rook, bishop, knight
+
+//                 else if (occupant.getTeamColor() != piece.getTeamColor()) {
+//                    moves.add(new ChessMove(myPosition, endPos, null));
+//                }
+
 //                    r += dir[0];
 //                    c += dir[1];
-                }
+//                }
             }
-            return moves;
+        return moves;
         }
         return List.of();
     }
