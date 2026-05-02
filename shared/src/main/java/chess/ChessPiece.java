@@ -223,10 +223,14 @@ public class ChessPiece {
 
                 // left side capture
                 ChessPosition pawnCaptureLeft = new ChessPosition(r, c - 1);
-                ChessPiece pawnCaptureLeftOcc = board.getPiece(pawnCaptureRight);
+                ChessPiece pawnCaptureLeftOcc = board.getPiece(pawnCaptureLeft);
 
-                if (board.getPiece(new ChessPosition(r, myPosition.getColumn() + 1) && occupant.getTeamColor() != piece.getTeamColor() && (occupant != null) {
-                    moves.add(new ChessMove(myPosition, endPos, null));
+                if (pawnCaptureRightOcc != null && pawnCaptureRightOcc.getTeamColor() != piece.getTeamColor()) {
+                    moves.add(new ChessMove(myPosition, pawnCaptureRight, null));
+                }
+
+                if (pawnCaptureLeftOcc != null && pawnCaptureLeftOcc.getTeamColor() != piece.getTeamColor()) {
+                    moves.add(new ChessMove(myPosition, pawnCaptureLeft, null));
                 }
 
             }
