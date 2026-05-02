@@ -197,20 +197,29 @@ public class ChessPiece {
                 direction = -1;
             }
 
-                if (r >= 1 && r <= 8 && c >= 1 && c <= 8) {
-                    ChessPosition endPos = new ChessPosition(r, c);
-                    ChessPiece occupant = board.getPiece(endPos);
+            int r = myPosition.getRow() + direction;
+            int c = myPosition.getColumn();
 
-                    // if occupant is empty: move forward one (1+ or 8- depending on color)
-                    // if occupant and occupant + 1 is empty: move forward 2 (direction depends on color)
-                    // if diagonal has enemy occupant (occupant != null): capture and move to spot
-                    // promotion: turn into queen, rook, bishop, knight
+            if (r >= 1 && r <= 8 && c >= 1 && c <= 8) {
+                ChessPosition endPos = new ChessPosition(r, c);
+                ChessPiece occupant = board.getPiece(endPos);
 
-                    if (occupant == null) {
-                        moves.add(new ChessMove(myPosition, endPos, null));
-                    } else if (occupant.getTeamColor() != piece.getTeamColor()) {
-                        moves.add(new ChessMove(myPosition, endPos, null));
-                    }
+                if (board.getPiece(new ChessPosition(r, c)) == null) {
+                    moves.add(new ChessMove(myPosition, endPos, null));
+                }
+
+                if () {
+
+                }
+
+                // if occupant is empty: move forward one (1+ or 8- depending on color)
+                // if occupant and occupant + 1 is empty: move forward 2 (direction depends on color)
+                // if diagonal has enemy occupant (occupant != null): capture and move to spot
+                // promotion: turn into queen, rook, bishop, knight
+
+                 else if (occupant.getTeamColor() != piece.getTeamColor()) {
+                    moves.add(new ChessMove(myPosition, endPos, null));
+                }
 
 //                    r += dir[0];
 //                    c += dir[1];
