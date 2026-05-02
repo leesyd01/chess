@@ -191,6 +191,12 @@ public class ChessPiece {
             ArrayList<ChessMove> moves = new ArrayList<>();
             int[][] directions = {{0, 1}, {0, 2}, {1, 1}, {-1, 1}};
 
+            // if occupant is empty: move forward one (1+ or 8- depending on color)
+            // if occupant and occupant + 1 is empty: move forward 2 (direction depends on color)
+            // if diagonal has enemy occupant (occupant != null): capture and move to spot
+
+
+
             for (int[] dir : directions) {
                 int r = myPosition.getRow() + dir[0];
                 int c = myPosition.getColumn() + dir[1];
