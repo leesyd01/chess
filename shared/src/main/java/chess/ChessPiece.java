@@ -189,29 +189,31 @@ public class ChessPiece {
 
         if (piece.getPieceType() == PieceType.PAWN) {
             ArrayList<ChessMove> moves = new ArrayList<>();
-            int[][] directions = {{0, 1}, {0, 2}, {1, 1}, {-1, 1}};
 
-            // if occupant is empty: move forward one (1+ or 8- depending on color)
-            // if occupant and occupant + 1 is empty: move forward 2 (direction depends on color)
-            // if diagonal has enemy occupant (occupant != null): capture and move to spot
-
-
-
-            for (int[] dir : directions) {
-                int r = myPosition.getRow() + dir[0];
-                int c = myPosition.getColumn() + dir[1];
+            int direction;
+            if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
+                direction = 1;
+            } else {
+                direction = -1;
+            }
 
                 if (r >= 1 && r <= 8 && c >= 1 && c <= 8) {
                     ChessPosition endPos = new ChessPosition(r, c);
                     ChessPiece occupant = board.getPiece(endPos);
+
+                    // if occupant is empty: move forward one (1+ or 8- depending on color)
+                    // if occupant and occupant + 1 is empty: move forward 2 (direction depends on color)
+                    // if diagonal has enemy occupant (occupant != null): capture and move to spot
+                    // promotion: turn into queen, rook, bishop, knight
 
                     if (occupant == null) {
                         moves.add(new ChessMove(myPosition, endPos, null));
                     } else if (occupant.getTeamColor() != piece.getTeamColor()) {
                         moves.add(new ChessMove(myPosition, endPos, null));
                     }
-                    r += dir[0];
-                    c += dir[1];
+
+//                    r += dir[0];
+//                    c += dir[1];
                 }
             }
             return moves;
