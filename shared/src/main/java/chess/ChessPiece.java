@@ -215,68 +215,47 @@ public class ChessPiece {
                         moves.add(new ChessMove(myPosition, endPos, null));
                     }                }
 
-                if (myPosition.getRow() == 2) { // white pawn moves two spaces forward
+                if (myPosition.getRow() == 2 && occupant == null && board.getPiece(pawnTwoMoves) == null) { // white pawn moves two spaces forward
                     moves.add(new ChessMove(myPosition, pawnTwoMoves, null));
                 }
 
-                if (myPosition.getRow() == 7) { // black pawn moves two spaces forward
+                if (myPosition.getRow() == 7 && occupant == null && board.getPiece(pawnTwoMoves) == null) { // black pawn moves two spaces forward
                     moves.add(new ChessMove(myPosition, pawnTwoMoves, null));
                 }
 
-                // right side capture
-                ChessPosition pawnCaptureRight = new ChessPosition(r, c + 1);
-                ChessPiece pawnCaptureRightOcc = board.getPiece(pawnCaptureRight);
+                if (c + 1 <= 8 && c - 1 >= 1) {
+                    // right side capture
+                    ChessPosition pawnCaptureRight = new ChessPosition(r, c + 1);
+                    ChessPiece pawnCaptureRightOcc = board.getPiece(pawnCaptureRight);
 
-                // left side capture
-                ChessPosition pawnCaptureLeft = new ChessPosition(r, c - 1);
-                ChessPiece pawnCaptureLeftOcc = board.getPiece(pawnCaptureLeft);
+                    // left side capture
+                    ChessPosition pawnCaptureLeft = new ChessPosition(r, c - 1);
+                    ChessPiece pawnCaptureLeftOcc = board.getPiece(pawnCaptureLeft);
 
-                if (pawnCaptureRightOcc != null && pawnCaptureRightOcc.getTeamColor() != piece.getTeamColor()) {
-                    if (r == 8 || r == 1) {
-                        moves.add(new ChessMove(myPosition, endPos, PieceType.QUEEN));
-                        moves.add(new ChessMove(myPosition, endPos, PieceType.ROOK));
-                        moves.add(new ChessMove(myPosition, endPos, PieceType.KNIGHT));
-                        moves.add(new ChessMove(myPosition, endPos, PieceType.BISHOP));
-                    } else {
-                        moves.add(new ChessMove(myPosition, endPos, null));
-                    }                }
+                    if (pawnCaptureRightOcc != null && pawnCaptureRightOcc.getTeamColor() != piece.getTeamColor()) {
+                        if (r == 8 || r == 1) {
+                            moves.add(new ChessMove(myPosition, pawnCaptureRight, PieceType.QUEEN));
+                            moves.add(new ChessMove(myPosition, pawnCaptureRight, PieceType.ROOK));
+                            moves.add(new ChessMove(myPosition, pawnCaptureRight, PieceType.KNIGHT));
+                            moves.add(new ChessMove(myPosition, pawnCaptureRight, PieceType.BISHOP));
+                        } else {
+                            moves.add(new ChessMove(myPosition, endPos, null));
+                        }
+                    }
 
-                if (pawnCaptureLeftOcc != null && pawnCaptureLeftOcc.getTeamColor() != piece.getTeamColor()) {
-                    if (r == 8 || r == 1) {
-                        moves.add(new ChessMove(myPosition, endPos, PieceType.QUEEN));
-                        moves.add(new ChessMove(myPosition, endPos, PieceType.ROOK));
-                        moves.add(new ChessMove(myPosition, endPos, PieceType.KNIGHT));
-                        moves.add(new ChessMove(myPosition, endPos, PieceType.BISHOP));
-                    } else {
-                        moves.add(new ChessMove(myPosition, endPos, null));
-                    }                }
-
-                // promotion pieces
-                if (r == 8 || r == 1) {
-                    moves.add(new ChessMove(myPosition, endPos, PieceType.QUEEN));
-                    moves.add(new ChessMove(myPosition, endPos, PieceType.ROOK));
-                    moves.add(new ChessMove(myPosition, endPos, PieceType.KNIGHT));
-                    moves.add(new ChessMove(myPosition, endPos, PieceType.BISHOP));
-                } else {
-                    moves.add(new ChessMove(myPosition, endPos, null));
+                    if (pawnCaptureLeftOcc != null && pawnCaptureLeftOcc.getTeamColor() != piece.getTeamColor()) {
+                        if (r == 8 || r == 1) {
+                            moves.add(new ChessMove(myPosition, pawnCaptureLeft, PieceType.QUEEN));
+                            moves.add(new ChessMove(myPosition, pawnCaptureLeft, PieceType.ROOK));
+                            moves.add(new ChessMove(myPosition, pawnCaptureLeft, PieceType.KNIGHT));
+                            moves.add(new ChessMove(myPosition, pawnCaptureLeft, PieceType.BISHOP));
+                        } else {
+                            moves.add(new ChessMove(myPosition, endPos, null));
+                        }
+                    }
                 }
-
             }
-
-                // DONE - if occupant is empty: move forward one (1+ or 8- depending on color)
-                // DONE - if occupant and occupant + 1 is empty: move forward 2 (direction depends on color)
-                // DONE - if diagonal has enemy occupant (occupant != null): capture and move to spot
-                // promotion: turn into queen, rook, bishop, knight
-
-//                 else if (occupant.getTeamColor() != piece.getTeamColor()) {
-//                    moves.add(new ChessMove(myPosition, endPos, null));
-//                }
-
-//                    r += dir[0];
-//                    c += dir[1];
-//                }
-            }
-        return moves;
+            return moves;
         }
         return List.of();
     }
