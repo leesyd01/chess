@@ -206,8 +206,14 @@ public class ChessPiece {
                 ChessPosition pawnTwoMoves = new ChessPosition(myPosition.getRow() + direction * 2, c);
 
                 if (board.getPiece(new ChessPosition(r, c)) == null) {
-                    moves.add(new ChessMove(myPosition, endPos, null));
-                }
+                    if (r == 8 || r == 1) {
+                        moves.add(new ChessMove(myPosition, endPos, PieceType.QUEEN));
+                        moves.add(new ChessMove(myPosition, endPos, PieceType.ROOK));
+                        moves.add(new ChessMove(myPosition, endPos, PieceType.KNIGHT));
+                        moves.add(new ChessMove(myPosition, endPos, PieceType.BISHOP));
+                    } else {
+                        moves.add(new ChessMove(myPosition, endPos, null));
+                    }                }
 
                 if (myPosition.getRow() == 2) { // white pawn moves two spaces forward
                     moves.add(new ChessMove(myPosition, pawnTwoMoves, null));
@@ -226,12 +232,24 @@ public class ChessPiece {
                 ChessPiece pawnCaptureLeftOcc = board.getPiece(pawnCaptureLeft);
 
                 if (pawnCaptureRightOcc != null && pawnCaptureRightOcc.getTeamColor() != piece.getTeamColor()) {
-                    moves.add(new ChessMove(myPosition, pawnCaptureRight, null));
-                }
+                    if (r == 8 || r == 1) {
+                        moves.add(new ChessMove(myPosition, endPos, PieceType.QUEEN));
+                        moves.add(new ChessMove(myPosition, endPos, PieceType.ROOK));
+                        moves.add(new ChessMove(myPosition, endPos, PieceType.KNIGHT));
+                        moves.add(new ChessMove(myPosition, endPos, PieceType.BISHOP));
+                    } else {
+                        moves.add(new ChessMove(myPosition, endPos, null));
+                    }                }
 
                 if (pawnCaptureLeftOcc != null && pawnCaptureLeftOcc.getTeamColor() != piece.getTeamColor()) {
-                    moves.add(new ChessMove(myPosition, pawnCaptureLeft, null));
-                }
+                    if (r == 8 || r == 1) {
+                        moves.add(new ChessMove(myPosition, endPos, PieceType.QUEEN));
+                        moves.add(new ChessMove(myPosition, endPos, PieceType.ROOK));
+                        moves.add(new ChessMove(myPosition, endPos, PieceType.KNIGHT));
+                        moves.add(new ChessMove(myPosition, endPos, PieceType.BISHOP));
+                    } else {
+                        moves.add(new ChessMove(myPosition, endPos, null));
+                    }                }
 
                 // promotion pieces
                 if (r == 8 || r == 1) {
