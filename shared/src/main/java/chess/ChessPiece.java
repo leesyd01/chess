@@ -203,12 +203,22 @@ public class ChessPiece {
             if (r >= 1 && r <= 8 && c >= 1 && c <= 8) {
                 ChessPosition endPos = new ChessPosition(r, c);
                 ChessPiece occupant = board.getPiece(endPos);
+                ChessPosition pawnTwoMoves = new ChessPosition(myPosition.getRow() + direction * 2, c);
 
                 if (board.getPiece(new ChessPosition(r, c)) == null) {
                     moves.add(new ChessMove(myPosition, endPos, null));
                 }
 
-                if () {
+                if (myPosition.getRow() == 2) { // white pawn
+                    moves.add(new ChessMove(myPosition, pawnTwoMoves, null));
+                }
+
+                if (myPosition.getRow() == 7) { // black pawn
+                    moves.add(new ChessMove(myPosition, pawnTwoMoves, null));
+
+                }
+
+
 
                 }
 
