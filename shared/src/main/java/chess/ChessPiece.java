@@ -203,7 +203,6 @@ public class ChessPiece {
             if (r >= 1 && r <= 8 && c >= 1 && c <= 8) {
                 ChessPosition endPos = new ChessPosition(r, c);
                 ChessPiece occupant = board.getPiece(endPos);
-                ChessPosition pawnTwoMoves = new ChessPosition(myPosition.getRow() + direction * 2, c);
 
                 if (board.getPiece(new ChessPosition(r, c)) == null) {
                     if (r == 8 || r == 1) {
@@ -215,22 +214,24 @@ public class ChessPiece {
                         moves.add(new ChessMove(myPosition, endPos, null));
                     }                }
 
-                if (myPosition.getRow() == 2 && occupant == null && board.getPiece(pawnTwoMoves) == null) { // white pawn moves two spaces forward
-                    moves.add(new ChessMove(myPosition, pawnTwoMoves, null));
+                if (myPosition.getRow() == 2 && occupant == null) { // white pawn moves two spaces forward
+                    ChessPosition pawnTwoMoves = new ChessPosition(myPosition.getRow() + direction * 2, c);
+                    if (board.getPiece(pawnTwoMoves) == null) {
+                        moves.add(new ChessMove(myPosition, pawnTwoMoves, null));
+                    }
                 }
 
-                if (myPosition.getRow() == 7 && occupant == null && board.getPiece(pawnTwoMoves) == null) { // black pawn moves two spaces forward
-                    moves.add(new ChessMove(myPosition, pawnTwoMoves, null));
+                if (myPosition.getRow() == 7 && occupant == null) { // black pawn moves two spaces forward
+                    ChessPosition pawnTwoMoves = new ChessPosition(myPosition.getRow() + direction * 2, c);
+                    if (board.getPiece(pawnTwoMoves) == null) {
+                        moves.add(new ChessMove(myPosition, pawnTwoMoves, null));
+                    }
                 }
 
-                if (c + 1 <= 8 && c - 1 >= 1) {
+                if (c + 1 <= 8) {
                     // right side capture
                     ChessPosition pawnCaptureRight = new ChessPosition(r, c + 1);
                     ChessPiece pawnCaptureRightOcc = board.getPiece(pawnCaptureRight);
-
-                    // left side capture
-                    ChessPosition pawnCaptureLeft = new ChessPosition(r, c - 1);
-                    ChessPiece pawnCaptureLeftOcc = board.getPiece(pawnCaptureLeft);
 
                     if (pawnCaptureRightOcc != null && pawnCaptureRightOcc.getTeamColor() != piece.getTeamColor()) {
                         if (r == 8 || r == 1) {
@@ -239,9 +240,14 @@ public class ChessPiece {
                             moves.add(new ChessMove(myPosition, pawnCaptureRight, PieceType.KNIGHT));
                             moves.add(new ChessMove(myPosition, pawnCaptureRight, PieceType.BISHOP));
                         } else {
-                            moves.add(new ChessMove(myPosition, endPos, null));
+                            moves.add(new ChessMove(myPosition, pawnCaptureRight, null));
                         }
                     }
+
+                if (c - 1 >= 1) {
+                    // left side capture
+                    ChessPosition pawnCaptureLeft = new ChessPosition(r, c - 1);
+                    ChessPiece pawnCaptureLeftOcc = board.getPiece(pawnCaptureLeft);
 
                     if (pawnCaptureLeftOcc != null && pawnCaptureLeftOcc.getTeamColor() != piece.getTeamColor()) {
                         if (r == 8 || r == 1) {
@@ -250,7 +256,8 @@ public class ChessPiece {
                             moves.add(new ChessMove(myPosition, pawnCaptureLeft, PieceType.KNIGHT));
                             moves.add(new ChessMove(myPosition, pawnCaptureLeft, PieceType.BISHOP));
                         } else {
-                            moves.add(new ChessMove(myPosition, endPos, null));
+                            moves.add(new ChessMove(myPosition, pawnCaptureLeft, null));
+                            }
                         }
                     }
                 }
