@@ -55,6 +55,7 @@ public class ChessMove {
         hash = 31 * hash + endPosition.getRow();
         hash = 31 * hash + startPosition.getColumn();
         hash = 31 * hash + endPosition.getColumn();
+        hash = 31 * hash + (promotionPiece == null ? 0 : promotionPiece.hashCode());
         return hash;
     }
 
