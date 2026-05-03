@@ -63,5 +63,13 @@ public class ChessBoard {
         // KING x2
         addPiece(new ChessPosition(1, 5), new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.KING));
         addPiece(new ChessPosition(8, 5), new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.KING));
+
+        // PAWN x16
+        for (int c = 1; c <= 8; c++) {
+            addPiece(new ChessPosition(2, c), new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.PAWN));
+        }
+        for (int c = 1; c <= 8; c++) {
+            addPiece(new ChessPosition(7, c), new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN));
+        }
     }
 }
