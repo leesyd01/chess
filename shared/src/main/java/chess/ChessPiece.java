@@ -214,14 +214,14 @@ public class ChessPiece {
                         moves.add(new ChessMove(myPosition, endPos, null));
                     }                }
 
-                if (myPosition.getRow() == 2 && occupant == null) { // white pawn moves two spaces forward
+                if (myPosition.getRow() == 2 && occupant == null && piece.getTeamColor() == ChessGame.TeamColor.WHITE) { // white pawn moves two spaces forward
                     ChessPosition pawnTwoMoves = new ChessPosition(myPosition.getRow() + direction * 2, c);
                     if (board.getPiece(pawnTwoMoves) == null) {
                         moves.add(new ChessMove(myPosition, pawnTwoMoves, null));
                     }
                 }
 
-                if (myPosition.getRow() == 7 && occupant == null) { // black pawn moves two spaces forward
+                if (myPosition.getRow() == 7 && occupant == null && piece.getTeamColor() == ChessGame.TeamColor.BLACK) { // black pawn moves two spaces forward
                     ChessPosition pawnTwoMoves = new ChessPosition(myPosition.getRow() + direction * 2, c);
                     if (board.getPiece(pawnTwoMoves) == null) {
                         moves.add(new ChessMove(myPosition, pawnTwoMoves, null));
@@ -243,6 +243,7 @@ public class ChessPiece {
                             moves.add(new ChessMove(myPosition, pawnCaptureRight, null));
                         }
                     }
+                }
 
                 if (c - 1 >= 1) {
                     // left side capture
@@ -260,7 +261,6 @@ public class ChessPiece {
                             }
                         }
                     }
-                }
             }
             return moves;
         }
