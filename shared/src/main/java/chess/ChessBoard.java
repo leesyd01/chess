@@ -18,7 +18,7 @@ public class ChessBoard {
     /**
      * Adds a chess piece to the chessboard
      *
-     * @param position where to add the piece to
+     * @param position where to add the piece toq
      * @param piece    the piece to add
      */
     public void addPiece(ChessPosition position, ChessPiece piece) {
