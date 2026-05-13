@@ -9,7 +9,7 @@ import java.util.Collection;
  * signature of the existing methods.
  */
 public class ChessGame {
-
+    private TeamColor teamTurn;
     public ChessGame() {
 
     }
@@ -106,5 +106,21 @@ public class ChessGame {
      */
     public ChessBoard getBoard() {
         throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) { return true; }
+        if (o == null || getClass() != o.getClass()) { return false; }
+        ChessGame other = (ChessGame) o;
+        return this.teamTurn == other.teamTurn && this.board.equals(other.board);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + (teamTurn == null ? 0 : teamTurn.hashCode());
+        hash = 31 * hash + (board == null ? 0 : board.hashCode());
+        return hash;
     }
 }
