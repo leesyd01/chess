@@ -99,7 +99,12 @@ public class ChessGame {
             throw new InvalidMoveException("Not " + piece.getTeamColor() + "'s turn");
         }
 
+        Collection<ChessMove> legal = validMoves(move.getStartPosition());
+        if (legal == null || !legal.contains(move)) {
+            throw new InvalidMoveException("Move is not valid: " + move);
+        }
 
+        applyMove(board, move);
     }
 
     /**
