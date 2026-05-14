@@ -77,7 +77,7 @@ public class ChessGame {
     private void applyMove(ChessBoard b, ChessMove move) {
         ChessPiece piece = b.getPiece(move.getStartPosition());
         b.addPiece(move.getStartPosition(), null);
-        if (move.getStartPosition() != null) {
+        if (move.getPromotionPiece() != null) {
             piece = new ChessPiece(piece.getTeamColor(), move.getPromotionPiece());
         }
         b.addPiece(move.getEndPosition(), piece);
@@ -105,6 +105,7 @@ public class ChessGame {
         }
 
         applyMove(board, move);
+        teamTurn = (teamTurn == TeamColor.WHITE) ? TeamColor.BLACK : TeamColor.WHITE;
     }
 
     /**
