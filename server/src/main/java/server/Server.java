@@ -20,7 +20,7 @@ public class Server {
         GameHandler gameHandler   = new GameHandler(new GameService(dataAccess));
         ClearHandler clearHandler = new ClearHandler(new ClearService(dataAccess));
 
-        javalin = Javalin.create();
+        javalin = Javalin.create(config -> config.staticFiles.add("web"));
 
         javalin.post("/user",      userHandler::register);
         javalin.post("/session",   userHandler::login);
