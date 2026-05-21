@@ -3,6 +3,12 @@ package server;
 import chess.*;
 import io.javalin.Javalin;
 import dataAccess.DataAccess;
+import handler.ClearHandler;
+import handler.GameHandler;
+import handler.UserHandler;
+import service.ClearService;
+import service.GameService;
+import service.UserService;
 
 public class ServerMain {
     private Javalin app;
