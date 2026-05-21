@@ -26,13 +26,14 @@ public class ServerMain {
 
         app = Javalin.create().start(desiredPort);
 
+        // endpoints to register
         app.post("/user", userHandler::register);
         app.post("/session", userHandler::login);
         app.delete("/session", userHandler::logout);
 
         app.get("/game", gameHandler::listGames);
-        app.get("/game", gameHandler::createGame);
-        app.get("/game", gameHandler::joinGame);
+        app.post("/game", gameHandler::createGame);
+        app.put("/game", gameHandler::joinGame);
 
         app.delete("/db", clearHandler::clear);
 
