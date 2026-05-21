@@ -14,9 +14,9 @@ public class ClearHandler {
     public void clear(Context cxt) {
         try {
             clearService.clear();
-            ctx.status(200).json("{}");
+            cxt.status(200).json("{}");
         } catch (ServiceException e) {
-            ctx.status(e.statusCode()).json("{\"message\": \"Error: " + e.getMessage() + "\"}");
+            cxt.status(e.statusCode()).json("{\"message\": \"Error: " + e.getMessage() + "\"}");
         }
     }
 }
