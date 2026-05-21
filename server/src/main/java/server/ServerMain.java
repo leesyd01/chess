@@ -1,6 +1,7 @@
 package server;
 
 import chess.*;
+import dataAccess.MemoryDataAccess;
 import io.javalin.Javalin;
 import dataAccess.DataAccess;
 import handler.ClearHandler;
