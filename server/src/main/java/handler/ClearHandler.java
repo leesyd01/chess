@@ -11,12 +11,12 @@ public class ClearHandler {
         this.clearService = clearService;
     }
 
-    public void clear(Context cxt) {
+    public void clear(Context ctx) {
         try {
             clearService.clear();
-            cxt.status(200).json("{}");
+            ctx.status(200).json("{}");
         } catch (ServiceException e) {
-            cxt.status(e.statusCode()).json("{\"message\": \"Error: " + e.getMessage() + "\"}");
+            ctx.status(e.statusCode()).json("{\"message\": \"Error: " + e.getMessage() + "\"}");
         }
     }
 }
