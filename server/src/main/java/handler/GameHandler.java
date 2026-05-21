@@ -8,7 +8,6 @@ import service.ServiceException;
 
 import java.util.Collection;
 
-
 public class GameHandler {
 
     private final GameService gameService;
@@ -22,9 +21,9 @@ public class GameHandler {
         try {
             String authToken = ctx.header("authorization");
             Collection<GameData> games = gameService.listGames(authToken);
-            ctx.status(200).json(new ListGamesResponse(games));
+            ctx.status(200).result(gson.toJson(new ListGamesResponse(games)));
         } catch (ServiceException e) {
-            ctx.status(e.statusCode()).json(new ErrorResponse("Error: " + e.getMessage()));
+            ctx.status(e.statusCode()).result(gson.toJson(new ErrorResponse("Error: " + e.getMessage())));
         }
     }
 
@@ -33,13 +32,13 @@ public class GameHandler {
             String authToken = ctx.header("authorization");
             var body = gson.fromJson(ctx.body(), CreateGameRequest.class);
             if (body == null) {
-                ctx.status(400).json(new ErrorResponse("Error: bad request"));
+                ctx.status(400).result(gson.toJson(new ErrorResponse("Error: bad request")));
                 return;
             }
             var game = gameService.createGame(authToken, body.gameName());
-            ctx.status(200).json(new CreateGameResponse(game.gameID()));
+            ctx.status(200).result(gson.toJson(new CreateGameResponse(game.gameID())));
         } catch (ServiceException e) {
-            ctx.status(e.statusCode()).json(new ErrorResponse("Error: " + e.getMessage()));
+            ctx.status(e.statusCode()).result(gson.toJson(new ErrorResponse("Error: " + e.getMessage())));
         }
     }
 
@@ -48,17 +47,16 @@ public class GameHandler {
             String authToken = ctx.header("authorization");
             var body = gson.fromJson(ctx.body(), JoinGameRequest.class);
             if (body == null) {
-                ctx.status(400).json(new ErrorResponse("Error: bad request"));
+                ctx.status(400).result(gson.toJson(new ErrorResponse("Error: bad request")));
                 return;
             }
             gameService.joinGame(authToken, body.playerColor(), body.gameID());
-            ctx.status(200).json("{}");
+            ctx.status(200).result("{}");
         } catch (ServiceException e) {
-            ctx.status(e.statusCode()).json(new ErrorResponse("Error: " + e.getMessage()));
+            ctx.status(e.statusCode()).result(gson.toJson(new ErrorResponse("Error: " + e.getMessage())));
         }
     }
 
-    // Request/response records
     private record CreateGameRequest(String gameName) {}
     private record CreateGameResponse(int gameID) {}
     private record JoinGameRequest(String playerColor, int gameID) {}
