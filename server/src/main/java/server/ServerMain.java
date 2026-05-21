@@ -17,8 +17,19 @@ public class ServerMain {
         GameHandler gameHandler = new GameHandler(new GameService(dataAccess));
         ClearHandler clearHandler = new ClearHandler(new ClearService(dataAccess));
 
+        app = Javalin.create().start(desiredPort);
 
+        app.post("/user", userHandler::register);
+        app.post("/session", userHandler::login);
+        app.delete("/session", userHandler::logout);
 
+        app.get("/game", gameHandler::listGames);
+        app.get("/game", gameHandler::createGame);
+        app.get("/game", gameHandler::joinGame);
+
+        app.delete("/db", clearHandler::clear);
+
+        return app.port();
     }
 
     public static void main(String[] args) {
