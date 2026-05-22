@@ -5,6 +5,8 @@ import io.javalin.http.Context;
 import service.ServiceException;
 import service.UserService;
 
+/** handles HTTP requests for user registration, login, and logout. */
+
 public class UserHandler {
     private final UserService userService;
     private final Gson gson = new Gson();
