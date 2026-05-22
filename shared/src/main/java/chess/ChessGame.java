@@ -123,20 +123,25 @@ public class ChessGame {
         if (kingPos == null) {
             return false;
         }
-
         TeamColor enemy = (teamColor == TeamColor.WHITE) ? TeamColor.BLACK : TeamColor.WHITE;
-
         for (int r = 1; r <= 8; r++) {
             for (int c = 1; c <= 8; c++) {
-                ChessPosition pos = new ChessPosition(r, c);
-                ChessPiece piece = b.getPiece(pos);
-                if (piece != null && piece.getTeamColor() == enemy) {
-                    for (ChessMove move : piece.pieceMoves(b, pos)) {
-                        if (move.getEndPosition().equals(kingPos)) {
-                            return true;
-                        }
-                    }
+                if (pieceAttacksKing(b, new ChessPosition(r, c), enemy, kingPos)) {
+                    return true;
                 }
+            }
+        }
+        return false;
+    }
+
+    private boolean pieceAttacksKing(ChessBoard b, ChessPosition pos, TeamColor enemy, ChessPosition kingPos) {
+        ChessPiece piece = b.getPiece(pos);
+        if (piece == null || piece.getTeamColor() != enemy) {
+            return false;
+        }
+        for (ChessMove move : piece.pieceMoves(b, pos)) {
+            if (move.getEndPosition().equals(kingPos)) {
+                return true;
             }
         }
         return false;
