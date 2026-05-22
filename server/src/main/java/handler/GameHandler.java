@@ -26,7 +26,7 @@ public class GameHandler {
             Collection<GameData> games = gameService.listGames(authToken);
             ctx.status(200).json(new ListGamesResponse(games));
         } catch (ServiceException e) {
-            ctx.status(e.statusCode()).json(new ErrorResponse("Error: " + e.getMessage())));
+            ctx.status(e.statusCode()).json(new ErrorResponse("Error: " + e.getMessage()));
         }
     }
 
