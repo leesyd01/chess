@@ -25,7 +25,6 @@ public class ServiceTests {
     }
 
     // register
-
     @Test
     public void registerSuccess() throws Exception {
         AuthData auth = userService.register("alice", "password123", "alice@test.com");
