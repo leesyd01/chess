@@ -1,7 +1,7 @@
 package server;
 
-import dataAccess.DataAccess;
-import dataAccess.MemoryDataAccess;
+import dataaccess.DataAccess;
+import dataaccess.MemoryDataAccess;
 import handler.ClearHandler;
 import handler.GameHandler;
 import handler.UserHandler;
