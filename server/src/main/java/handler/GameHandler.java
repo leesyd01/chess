@@ -8,6 +8,8 @@ import service.ServiceException;
 
 import java.util.Collection;
 
+/** handles HTTP requests for listing, creating, and joining a chess game. */
+
 public class GameHandler {
 
     private final GameService gameService;
@@ -61,5 +63,4 @@ public class GameHandler {
     private record CreateGameResponse(int gameID) {}
     private record JoinGameRequest(String playerColor, int gameID) {}
     private record ListGamesResponse(Collection<GameData> games) {}
-    private record ErrorResponse(String message) {}
 }

@@ -8,6 +8,8 @@ import model.GameData;
 
 import java.util.Collection;
 
+/** handles business logic for listing, creating, and joining a chess game. */
+
 public class GameService {
 
     private final DataAccess dataAccess;
@@ -15,6 +17,9 @@ public class GameService {
     public GameService(DataAccess dataAccess) {
         this.dataAccess = dataAccess;
     }
+
+    /** returns all existing games.
+     * 401 if auth token is invalid. */
 
     public Collection<GameData> listGames(String authToken) throws ServiceException {
         authorize(authToken);
@@ -24,6 +29,9 @@ public class GameService {
             throw new ServiceException(500, e.getMessage());
         }
     }
+
+    /** creates new game with given info.
+     * 401 if unauthorized; 400 if game name is blank. */
 
     public GameData createGame(String authToken, String gameName) throws ServiceException {
         authorize(authToken);
@@ -37,6 +45,9 @@ public class GameService {
         }
     }
 
+    /** adds player to existing game in team color of choice.
+     * 401 if unauthorized; 400 if game not found; 403 if requested color is taken. */
+
     public void joinGame(String authToken, String playerColor, int gameID) throws ServiceException {
         AuthData auth = authorize(authToken);
         try {
@@ -44,26 +55,35 @@ public class GameService {
             if (game == null) {
                 throw new ServiceException(400, "bad request");
             }
-            if (playerColor == null || (!playerColor.equalsIgnoreCase("WHITE") && !playerColor.equalsIgnoreCase("BLACK"))) {
+            if (playerColor == null ||
+                    (!playerColor.equalsIgnoreCase("WHITE") && !playerColor.equalsIgnoreCase("BLACK"))) {
                 throw new ServiceException(400, "bad request");
             }
-            GameData updated;
-            if (playerColor.equalsIgnoreCase("WHITE")) {
-                if (game.whiteUsername() != null) {
-                    throw new ServiceException(403, "already taken");
-                }
-                updated = new GameData(game.gameID(), auth.username(), game.blackUsername(), game.gameName(), game.game());
-            } else {
-                if (game.blackUsername() != null) {
-                    throw new ServiceException(403, "already taken");
-                }
-                updated = new GameData(game.gameID(), game.whiteUsername(), auth.username(), game.gameName(), game.game());
-            }
+            GameData updated = buildUpdatedGame(game, auth.username(), playerColor);
             dataAccess.updateGame(updated);
         } catch (DataAccessException e) {
             throw new ServiceException(500, e.getMessage());
         }
     }
+
+    /** returns a copy of the game with the requesting user assigned to the chosen color.
+     * 403 updated if the requested color is taken. */
+    private GameData buildUpdatedGame(GameData game, String username, String playerColor) throws ServiceException {
+        if (playerColor.equalsIgnoreCase("WHITE")) {
+            if (game.whiteUsername() != null) {
+                throw new ServiceException(403, "already taken");
+            }
+            return new GameData(game.gameID(), username, game.blackUsername(), game.gameName(), game.game());
+        } else {
+            if (game.blackUsername() != null) {
+                throw new ServiceException(403, "already taken");
+            }
+            return new GameData(game.gameID(), game.whiteUsername(), username, game.gameName(), game.game());
+        }
+    }
+
+    /** validates an auth token and returns the associated AuthData.
+     * 401 if the token is null or not found. */
 
     // Returns the AuthData if valid, throws 401 if not
     private AuthData authorize(String authToken) throws ServiceException {

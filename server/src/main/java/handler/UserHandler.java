@@ -58,5 +58,4 @@ public class UserHandler {
     private record RegisterResponse(String username, String authToken) {}
     private record LoginRequest(String username, String password) {}
     private record LoginResponse(String username, String authToken) {}
-    private record ErrorResponse(String message) {}
 }

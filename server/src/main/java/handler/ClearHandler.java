@@ -4,6 +4,8 @@ import io.javalin.http.Context;
 import service.ClearService;
 import service.ServiceException;
 
+/** handles HTTP requests for clearing all application data. */
+
 public class ClearHandler {
     private final ClearService clearService;
 

@@ -7,12 +7,17 @@ import model.AuthData;
 import model.UserData;
 import org.mindrot.jbcrypt.BCrypt;
 
+/** handles logic for user registration, login, and logout. */
+
 public class UserService {
     private final DataAccess dataAccess;
 
     public UserService(DataAccess dataAccess) {
         this.dataAccess = dataAccess;
     }
+
+    /** registers a new user to chess game; returns auth token.
+     * service exception 400 if any field is left blank; 403 if username is taken. */
 
     public AuthData register(String username, String password, String email) throws ServiceException {
         if (username == null || username.isBlank() ||
@@ -32,6 +37,9 @@ public class UserService {
         }
     }
 
+    /** logs in an existing user; returns a new auth token.
+     * 401 if credentials are invalid. */
+
     public AuthData login(String username, String password) throws ServiceException {
         if (username == null || password == null) {
             throw new ServiceException(400, "bad request");
@@ -46,6 +54,9 @@ public class UserService {
             throw new ServiceException(500, e.getMessage());
         }
     }
+
+    /** logs out an existing user by invalidating their token.
+     * 401 if the token is invalid. */
 
     public void logout(String authToken) throws ServiceException {
         try {
