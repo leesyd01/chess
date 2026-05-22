@@ -6,11 +6,11 @@ import handler.ClearHandler;
 import handler.GameHandler;
 import handler.UserHandler;
 import io.javalin.Javalin;
-import io.javalin.json.JavalinJackson;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import service.ClearService;
 import service.GameService;
 import service.UserService;
+
+
 
 public class Server {
     private final Javalin javalin;
@@ -22,9 +22,7 @@ public class Server {
         GameHandler gameHandler   = new GameHandler(new GameService(dataAccess));
         ClearHandler clearHandler = new ClearHandler(new ClearService(dataAccess));
 
-        javalin = Javalin.create(config -> {
-            config.staticFiles.add("web");
-        });
+        javalin = Javalin.create(config -> config.staticFiles.add("web"));
 
         javalin.post("/user",      userHandler::register);
         javalin.post("/session",   userHandler::login);
