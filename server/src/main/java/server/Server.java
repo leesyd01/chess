@@ -10,13 +10,11 @@ import service.ClearService;
 import service.GameService;
 import service.UserService;
 
-
-
 public class Server {
     private final Javalin javalin;
 
     public Server() {
-        DataAccess dataAccess = new MemoryDataAccess();
+        DataAccess dataAccess = new MySqlDataAccess();
 
         UserHandler userHandler   = new UserHandler(new UserService(dataAccess));
         GameHandler gameHandler   = new GameHandler(new GameService(dataAccess));
