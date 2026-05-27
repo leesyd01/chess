@@ -27,12 +27,12 @@ public class MySqlDataAccess implements DataAccess {
         if (getUser(user.username()) != null) {
             throw new DataAccessException("already taken");
         }
-        String hashed = BCrypt.hashpw(user.password(), BCrypt.gensalt());
+//        String hashed = BCrypt.hashpw(user.password(), BCrypt.gensalt());
         String sql = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
         try (var conn = DatabaseManager.getConnection();
             var ps = conn.prepareStatement(sql)) {
             ps.setString(1, user.username());
-            ps.setString(2, hashed);
+            ps.setString(2, user.password());
             ps.setString(3, user.email());
             ps.executeUpdate();
         } catch (SQLException e) {
