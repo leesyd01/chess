@@ -1,6 +1,7 @@
 package server;
 
 import dataaccess.DataAccess;
+import dataaccess.DataAccessException;
 import dataaccess.MemoryDataAccess;
 import dataaccess.MySqlDataAccess;
 import handler.ClearHandler;
@@ -15,7 +16,12 @@ public class Server {
     private final Javalin javalin;
 
     public Server() {
-        DataAccess dataAccess = new MySqlDataAccess();
+        DataAccess dataAccess;
+        try {
+            dataAccess = new MySqlDataAccess();
+        } catch (DataAccessException e) {
+            throw new RuntimeException("Failed to initialize database: " + e.getMessage());
+        }
 
         UserHandler userHandler   = new UserHandler(new UserService(dataAccess));
         GameHandler gameHandler   = new GameHandler(new GameService(dataAccess));
