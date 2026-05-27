@@ -60,15 +60,6 @@ public class MySqlDataAccess implements DataAccess {
         }
     }
 
-    /** returns true if provided plain text password matches stored bcrypt hash */
-    public boolean verifyPassword(String username, String providedPassword) throws DataAccessException {
-        UserData user = getUser(username);
-        if (user == null) {
-            return false;
-        }
-        return BCrypt.checkpw(providedPassword, user.password());
-    }
-
     // AUTH
     @Override
     public AuthData createAuth(String username) throws DataAccessException {
