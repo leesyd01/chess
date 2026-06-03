@@ -1,6 +1,5 @@
 package client;
 
-import chess.*;
 import model.AuthData;
 import ui.PostloginUI;
 import ui.PreloginUI;
