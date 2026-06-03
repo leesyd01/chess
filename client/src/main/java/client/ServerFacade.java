@@ -126,7 +126,7 @@ public class ServerFacade {
     }
 
     private String readBody(InputStream stream) throws IOException {
-        if (stream == null) return "";
+        if (stream == null) { return ""; }
         try (var reader = new BufferedReader(new InputStreamReader(stream))) {
             var sb = new StringBuilder();
             String line;
