@@ -31,11 +31,11 @@ public class PreloginUI {
                 }
                 case "login" -> {
                     AuthData auth = handleLogin();
-                    if (auth != null) return auth;
+                    if (auth != null) { return auth;}
                 }
                 case "register" -> {
                     AuthData auth = handleRegister();
-                    if (auth != null) return auth;
+                    if (auth != null) { return auth; }
                 }
                 default -> System.out.println("Unknown command. Type 'help' for options.");
             }
