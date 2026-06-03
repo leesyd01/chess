@@ -21,7 +21,7 @@ public class PostloginUI {
 
     /** runs postlogin REPL; returns true if logged out (go back to prelogin); returns false if user wants to quit */
     public boolean run() {
-        System.out.println("Logged in as " + auth.username() + ". Type 'help for commands.");
+        System.out.println("Logged in as " + auth.username() + ". Type 'help' for commands.");
         while (true) {
             System.out.print("[" + auth.username() + "] >>> ");
             String line = scanner.nextLine().trim();
