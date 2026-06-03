@@ -64,7 +64,7 @@ public class BoardDrawer {
             String squareBg = isLight ? LIGHT_SQUARE : DARK_SQUARE;
 
             ChessPiece piece = board.getPiece(new ChessPosition(row, col));
-            String pieceStr = piece != null ? getPieceSymbol(piece) : "    ";
+            String pieceStr = piece != null ? getPieceSymbol(piece) : RESET_TEXT_COLOR + "   ";
 
             System.out.print(squareBg + pieceStr);
         }
@@ -83,6 +83,6 @@ public class BoardDrawer {
             case ROOK   -> isWhite ? WHITE_ROOK   : BLACK_ROOK;
             case PAWN   -> isWhite ? WHITE_PAWN   : BLACK_PAWN;
         };
-        return color + symbol;
+        return color + " " + symbol + " ";
     }
 }
