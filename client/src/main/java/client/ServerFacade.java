@@ -82,7 +82,7 @@ public class ServerFacade {
 
     // HTTP helper
 
-    private <T> T makeRequest(String method, String path, String authToken,
+    <T> T makeRequest(String method, String path, String authToken,
                               Object requestBody, Class<T> responseClass) throws Exception {
         var url = URI.create(baseUrl + path).toURL();
         var connection = (HttpURLConnection) url.openConnection();

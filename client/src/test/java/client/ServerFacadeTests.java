@@ -30,7 +30,7 @@ public class ServerFacadeTests {
     @BeforeEach
     void clearDatabase() throws Exception {
         // Adjust this if your clear endpoint path differs
-        facade.makeRequestPublic("DELETE", "/db", null, null, null);
+        facade.makeRequest("DELETE", "/db", null, null, null);
     }
 
    // register
