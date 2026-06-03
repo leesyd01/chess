@@ -37,8 +37,8 @@ public class BoardDrawer {
                 : new int[]{0, 1, 2, 3, 4, 5, 6, 7};
 
         int[] rowOrder = flipped
-                ? new int[]{8, 7, 6, 5, 4, 3, 2, 1}
-                : new int[]{1, 2, 3, 4, 5, 6, 7, 8};
+                ? new int[]{1, 2, 3, 4, 5, 6, 7, 8}
+                : new int[]{8, 7, 6, 5, 4, 3, 2, 1};
 
         printColumnHeaders(cols, colOrder);
         for (int row : rowOrder) {
@@ -76,12 +76,12 @@ public class BoardDrawer {
         boolean isWhite = piece.getTeamColor() == ChessGame.TeamColor.WHITE;
         String color = isWhite ? SET_TEXT_COLOR_WHITE : SET_TEXT_COLOR_BLACK;
         String symbol = switch (piece.getPieceType()) {
-            case KING   -> isWhite ? WHITE_KING   : BLACK_KING;
-            case QUEEN  -> isWhite ? WHITE_QUEEN  : BLACK_QUEEN;
-            case BISHOP -> isWhite ? WHITE_BISHOP : BLACK_BISHOP;
-            case KNIGHT -> isWhite ? WHITE_KNIGHT : BLACK_KNIGHT;
-            case ROOK   -> isWhite ? WHITE_ROOK   : BLACK_ROOK;
-            case PAWN   -> isWhite ? WHITE_PAWN   : BLACK_PAWN;
+            case KING   -> isWhite ? BLACK_KING   : WHITE_KING;
+            case QUEEN  -> isWhite ? BLACK_QUEEN  : WHITE_QUEEN;
+            case BISHOP -> isWhite ? BLACK_BISHOP : WHITE_BISHOP;
+            case KNIGHT -> isWhite ? BLACK_KNIGHT : WHITE_KNIGHT;
+            case ROOK   -> isWhite ? BLACK_ROOK   : WHITE_ROOK;
+            case PAWN   -> isWhite ? BLACK_PAWN   : WHITE_PAWN;
         };
         return color + symbol;
     }
