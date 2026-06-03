@@ -120,7 +120,7 @@ public class PostloginUI {
                 return;
             }
             int index = parseGameIndex(parts[1], games.size());
-            if (index < 0) return;
+            if (index < 0) { return; }
             GameData game = games.get(index);
             System.out.println("Observing game: " + game.gameName());
             BoardDrawer.draw(null); // null = observer on white perspective
@@ -130,7 +130,7 @@ public class PostloginUI {
                 return;
             }
             int index = parseGameIndex(parts[1], games.size());
-            if (index < 0) return;
+            if (index < 0) { return; }
 
             String color = parts[2].toUpperCase();
             if (!color.equals("WHITE") && !color.equals("BLACK")) {
