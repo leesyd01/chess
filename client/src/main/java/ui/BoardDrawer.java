@@ -83,6 +83,6 @@ public class BoardDrawer {
             case ROOK   -> isWhite ? WHITE_ROOK   : BLACK_ROOK;
             case PAWN   -> isWhite ? WHITE_PAWN   : BLACK_PAWN;
         };
-        return color + " " + symbol + " ";
+        return color + symbol;
     }
 }
