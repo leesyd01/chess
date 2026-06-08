@@ -60,7 +60,7 @@ public class BoardDrawer {
 
         for (int colIdx = 0; colIdx < 8; colIdx++) {
             int col = colOrder[colIdx] + 1;
-            boolean isLight = (col + row) % 2 == 0;
+            boolean isLight = (col + row) % 2 != 0;
             String squareBg = isLight ? LIGHT_SQUARE : DARK_SQUARE;
 
             ChessPiece piece = board.getPiece(new ChessPosition(row, col));
