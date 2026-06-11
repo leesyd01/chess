@@ -36,10 +36,10 @@ public class Server {
         });
 
         javalin.ws("/ws", ws -> {
-            ws.onConnect(ctx -> {});
-            ws.onMessage(ctx -> wsHandler.onMessage(ctx.session, ctx.message()));
-            ws.onClose(ctx -> wsHandler.onClose(ctx.session, ctx.status(), ctx.reason()));
-            ws.onError(ctx -> wsHandler.onError(ctx.session, ctx.error()));
+            ws.onConnect(ctx -> wsHandler.onConnect(ctx));
+            ws.onMessage(ctx -> wsHandler.onMessage(ctx));
+            ws.onClose(ctx -> wsHandler.onClose(ctx));
+            ws.onError(ctx -> wsHandler.onError(ctx));
         });
 
         javalin.post("/user",      userHandler::register);
