@@ -181,11 +181,11 @@ public class GameplayUI implements ServerMessageObserver {
 
     /** parses "e2" -> ChessPosition(2, 5). returns null on bad input */
     private ChessPosition parsePosition(String s) {
-        if (s == null || s.length() != 2) return null;
+        if (s == null || s.length() != 2) { return null; }
         char colChar = Character.toLowerCase(s.charAt(0));
         char rowChar = s.charAt(1);
-        if (colChar < 'a' || colChar > 'h') return null;
-        if (rowChar < '1' || rowChar > '8') return null;
+        if (colChar < 'a' || colChar > 'h') { return null; }
+        if (rowChar < '1' || rowChar > '8') { return null; }
         int col = colChar - 'a' + 1;
         int row = rowChar - '0';
         return new ChessPosition(row, col);

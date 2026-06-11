@@ -120,13 +120,13 @@ public class PostloginUI {
         if (observe) {
             if (parts.length < 2) { System.out.println("Usage: observe <#>"); return; }
             int index = parseGameIndex(parts[1], games.size());
-            if (index < 0) return;
+            if (index < 0) { return; }
             GameData game = games.get(index);
             launchGameplay(game, null); // null = observer
         } else {
             if (parts.length < 3) { System.out.println("Usage: play <#> <WHITE|BLACK>"); return; }
             int index = parseGameIndex(parts[1], games.size());
-            if (index < 0) return;
+            if (index < 0) { return; }
             String color = parts[2].toUpperCase();
             if (!color.equals("WHITE") && !color.equals("BLACK")) {
                 System.out.println("Color must be WHITE or BLACK.");

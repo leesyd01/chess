@@ -71,7 +71,7 @@ public class WebSocketFacade {
     }
 
     public void close() throws IOException {
-        if (session != null && session.isOpen()) session.close();
+        if (session != null && session.isOpen()) { session.close(); }
     }
 
     private void send(Object obj) throws IOException {

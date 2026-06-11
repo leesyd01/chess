@@ -40,7 +40,7 @@ public class BoardDrawer {
         Collection<ChessMove> moves = game.validMoves(selected);
         Set<ChessPosition> highlights = new HashSet<>();
         if (moves != null) {
-            for (ChessMove m : moves) highlights.add(m.getEndPosition());
+            for (ChessMove m : moves) { highlights.add(m.getEndPosition()); }
         }
         System.out.println();
         drawBoard(game.getBoard(), flipped, selected, highlights);

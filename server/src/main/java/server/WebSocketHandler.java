@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class WebSocketHandler {
 
-    private static final ConcurrentHashMap<Integer, Set<WsContext>> gameSessions = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<Integer, Set<WsContext>> GAME_SESSIONS = new ConcurrentHashMap<>();
 
     private final GameService gameService;
     private final UserService userService;
@@ -47,7 +47,7 @@ public class WebSocketHandler {
     }
 
     public void onClose(WsCloseContext ctx) {
-        gameSessions.values().forEach(set -> set.remove(ctx));
+        GAME_SESSIONS.values().forEach(set -> set.remove(ctx));
     }
 
     public void onError(WsErrorContext ctx) {
@@ -59,14 +59,14 @@ public class WebSocketHandler {
             String username = userService.getUsername(cmd.getAuthToken());
             GameData game = gameService.getGame(cmd.getAuthToken(), cmd.getGameID());
 
-            gameSessions.computeIfAbsent(cmd.getGameID(), k -> ConcurrentHashMap.newKeySet()).add(ctx);
+            GAME_SESSIONS.computeIfAbsent(cmd.getGameID(), k -> ConcurrentHashMap.newKeySet()).add(ctx);
 
             sendTo(ctx, new LoadGameMessage(game));
 
             String role;
-            if (username.equals(game.whiteUsername()))      role = "joined as WHITE";
-            else if (username.equals(game.blackUsername())) role = "joined as BLACK";
-            else                                             role = "joined as an observer";
+            if (username.equals(game.whiteUsername())) { role = "joined as WHITE"; }
+            else if (username.equals(game.blackUsername())) { role = "joined as BLACK"; }
+            else { role = "joined as an observer"; }
 
             broadcastExcept(cmd.getGameID(), ctx, new NotificationMessage(username + " " + role));
 
@@ -108,7 +108,7 @@ public class WebSocketHandler {
                     ? ChessGame.TeamColor.BLACK : ChessGame.TeamColor.WHITE;
             String opponentName = (opponent == ChessGame.TeamColor.WHITE)
                     ? gameData.whiteUsername() : gameData.blackUsername();
-            if (opponentName == null) opponentName = opponent.name();
+            if (opponentName == null) { opponentName = opponent.name(); }
 
             if (game.isInCheckmate(opponent)) {
                 game.setOver(true);
@@ -139,7 +139,7 @@ public class WebSocketHandler {
                 gameService.leaveGame(cmd.getAuthToken(), cmd.getGameID(), color);
             }
 
-            gameSessions.getOrDefault(cmd.getGameID(), ConcurrentHashMap.newKeySet()).remove(ctx);
+            GAME_SESSIONS.getOrDefault(cmd.getGameID(), ConcurrentHashMap.newKeySet()).remove(ctx);
             broadcastExcept(cmd.getGameID(), ctx, new NotificationMessage(username + " left the game"));
 
         } catch (ServiceException e) {
@@ -172,8 +172,8 @@ public class WebSocketHandler {
     }
 
     private ChessGame.TeamColor colorOf(String username, GameData game) {
-        if (username.equals(game.whiteUsername())) return ChessGame.TeamColor.WHITE;
-        if (username.equals(game.blackUsername()))  return ChessGame.TeamColor.BLACK;
+        if (username.equals(game.whiteUsername())) { return ChessGame.TeamColor.WHITE; }
+        if (username.equals(game.blackUsername()))  { return ChessGame.TeamColor.BLACK; }
         return null;
     }
 
@@ -183,15 +183,15 @@ public class WebSocketHandler {
 
     private void broadcastAll(int gameID, Object msg) {
         String json = gson.toJson(msg);
-        for (WsContext ctx : gameSessions.getOrDefault(gameID, Set.of())) {
+        for (WsContext ctx : GAME_SESSIONS.getOrDefault(gameID, Set.of())) {
             ctx.send(json);
         }
     }
 
     private void broadcastExcept(int gameID, WsContext exclude, Object msg) {
         String json = gson.toJson(msg);
-        for (WsContext ctx : gameSessions.getOrDefault(gameID, Set.of())) {
-            if (!ctx.equals(exclude)) ctx.send(json);
+        for (WsContext ctx : GAME_SESSIONS.getOrDefault(gameID, Set.of())) {
+            if (!ctx.equals(exclude)) { ctx.send(json); }
         }
     }
 

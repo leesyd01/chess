@@ -107,7 +107,7 @@ public class GameService {
         authorize(authToken);
         try {
             GameData game = dataAccess.getGame(gameID);
-            if (game == null) throw new ServiceException(400, "game not found");
+            if (game == null) { throw new ServiceException(400, "game not found"); }
             return game;
         } catch (DataAccessException e) {
             throw new ServiceException(500, e.getMessage());
@@ -129,7 +129,7 @@ public class GameService {
         authorize(authToken);
         try {
             GameData game = dataAccess.getGame(gameID);
-            if (game == null) return;
+            if (game == null) { return; }
             GameData updated;
             if (color == chess.ChessGame.TeamColor.WHITE) {
                 updated = new GameData(game.gameID(), null, game.blackUsername(), game.gameName(), game.game());
