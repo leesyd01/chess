@@ -100,4 +100,45 @@ public class GameService {
             throw new ServiceException(500, e.getMessage());
         }
     }
+
+    // phase 6 additions
+    /** gets a single game by ID, throws 401 if unauthorized, 400 if not found */
+    public GameData getGame(String authToken, int gameID) throws ServiceException {
+        authorize(authToken);
+        try {
+            GameData game = dataAccess.getGame(gameID);
+            if (game == null) throw new ServiceException(400, "game not found");
+            return game;
+        } catch (DataAccessException e) {
+            throw new ServiceException(500, e.getMessage());
+        }
+    }
+
+    /** saves updated game state, 401 if unauthorized */
+    public void updateGame(String authToken, GameData game) throws ServiceException {
+        authorize(authToken);
+        try {
+            dataAccess.updateGame(game);
+        } catch (DataAccessException e) {
+            throw new ServiceException(500, e.getMessage());
+        }
+    }
+
+    /** removes a player from a game when they leave, 401 if unauthorized */
+    public void leaveGame(String authToken, int gameID, chess.ChessGame.TeamColor color) throws ServiceException {
+        authorize(authToken);
+        try {
+            GameData game = dataAccess.getGame(gameID);
+            if (game == null) return;
+            GameData updated;
+            if (color == chess.ChessGame.TeamColor.WHITE) {
+                updated = new GameData(game.gameID(), null, game.blackUsername(), game.gameName(), game.game());
+            } else {
+                updated = new GameData(game.gameID(), game.whiteUsername(), null, game.gameName(), game.game());
+            }
+            dataAccess.updateGame(updated);
+        } catch (DataAccessException e) {
+            throw new ServiceException(500, e.getMessage());
+        }
+    }
 }
