@@ -12,7 +12,8 @@ import java.util.Scanner;
 
 public class GameplayUI implements ServerMessageObserver {
 
-    private final WebSocketFacade ws;
+    private WebSocketFacade ws;
+    public void setWs(WebSocketFacade ws) { this.ws = ws; }
     private final Scanner scanner;
     private final String authToken;
     private final int gameID;

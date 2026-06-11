@@ -1,6 +1,8 @@
 package ui;
 
 import client.ServerFacade;
+import client.WebSocketFacade;
+import ui.GameplayUI;
 import model.AuthData;
 import model.GameData;
 import java.util.Collection;
@@ -105,6 +107,7 @@ public class PostloginUI {
         }
     }
 
+    // phase 6 websockets
     private void handleJoinGame(String[] parts, boolean observe) {
         List<GameData> games;
         try {
@@ -115,37 +118,43 @@ public class PostloginUI {
         }
 
         if (observe) {
-            if (parts.length < 2) {
-                System.out.println("Usage: observe <#>");
-                return;
-            }
+            if (parts.length < 2) { System.out.println("Usage: observe <#>"); return; }
             int index = parseGameIndex(parts[1], games.size());
-            if (index < 0) { return; }
+            if (index < 0) return;
             GameData game = games.get(index);
-            System.out.println("Observing game: " + game.gameName());
-            BoardDrawer.draw(null); // null = observer on white perspective
+            launchGameplay(game, null); // null = observer
         } else {
-            if (parts.length < 3) {
-                System.out.println("Usage: play <#> <WHITE|BLACK>");
-                return;
-            }
+            if (parts.length < 3) { System.out.println("Usage: play <#> <WHITE|BLACK>"); return; }
             int index = parseGameIndex(parts[1], games.size());
-            if (index < 0) { return; }
-
+            if (index < 0) return;
             String color = parts[2].toUpperCase();
             if (!color.equals("WHITE") && !color.equals("BLACK")) {
                 System.out.println("Color must be WHITE or BLACK.");
                 return;
             }
-
             GameData game = games.get(index);
             try {
                 facade.joinGame(auth.authToken(), game.gameID(), color);
-                System.out.println("Joined game '" + game.gameName() + "' as " + color + ".");
-                BoardDrawer.draw(color);
             } catch (Exception e) {
                 System.out.println("Could not join game: " + e.getMessage());
+                return;
             }
+            launchGameplay(game, color);
+        }
+    }
+
+    private void launchGameplay(GameData game, String color) {
+        try {
+            String serverUrl = facade.getServerUrl();
+            GameplayUI gameplayUI = new GameplayUI(null, scanner, auth.authToken(),
+                    game.gameID(), color, auth.username());
+            WebSocketFacade ws = new WebSocketFacade(serverUrl, gameplayUI);
+
+            gameplayUI.setWs(ws);
+            ws.sendConnect(auth.authToken(), game.gameID());
+            gameplayUI.run();
+        } catch (Exception e) {
+            System.out.println("Could not connect to game: " + e.getMessage());
         }
     }
 
