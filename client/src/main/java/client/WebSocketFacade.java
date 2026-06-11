@@ -25,6 +25,8 @@ public class WebSocketFacade {
         String wsUrl = serverUrl.replace("http", "ws") + "/ws";
         WebSocketContainer container = ContainerProvider.getWebSocketContainer();
         container.connectToServer(this, new URI(wsUrl));
+        // wait for onOpen to fire
+        Thread.sleep(300);
     }
 
     @OnOpen
