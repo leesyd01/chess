@@ -69,4 +69,18 @@ public class UserService {
             throw new ServiceException(500, e.getMessage());
         }
     }
+
+    // phase 6 additions
+
+    /** returns username for a given auth token, 401 if invalid */
+    public String getUsername(String authToken) throws ServiceException {
+        if (authToken == null) throw new ServiceException(401, "unauthorized");
+        try {
+            model.authData auth = dataAccess.getAuth(authToken);
+            if (auth == null) throw new ServiceException(401, "unauthorized");
+            return auth.username();
+        } catch (dataaccess.DataAccessException e) {
+            throw new ServiceException(500, e.getMessage());
+        }
+    }
 }
