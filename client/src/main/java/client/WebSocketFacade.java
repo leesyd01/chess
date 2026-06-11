@@ -18,13 +18,13 @@ public class WebSocketFacade {
 
     private Session session;
     private final Gson gson = new Gson();
-    private final ServerMessageHandler handler;
+    private final ServerMessageObserver observer;
 
-    public WebSocketFacade(String serverUrl, ServerMessageHandler handler) throws Exception {
-        this.handler = handler;
-        URI uri = new URI(serverUrl.replace("http", "ws") + "/ws");
+    public WebSocketFacade(String serverUrl, ServerMessageObserver observer) throws Exception {
+        this.observer = observer;
+        String wsUrl = serverUrl.replace("http", "ws") + "/ws";
         WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-        container.connectToServer(this, uri);
+        container.connectToServer(this, new URI(wsUrl));
     }
 
     @OnOpen
@@ -33,49 +33,44 @@ public class WebSocketFacade {
     }
 
     @OnMessage
-    public void onMessage(String message) {
-        ServerMessage serverMessage = gson.fromJson(message, ServerMessage.class);
-        switch (serverMessage.getServerMessageType()) {
-            case LOAD_GAME -> handler.handleLoadGame(gson.fromJson(message, LoadGameMessage.class));
-            case ERROR -> handler.handleError(gson.fromJson(message, ErrorMessage.class));
-            case NOTIFICATION -> handler.handleNotification(gson.fromJson(message, NotificationMessage.class));
+    public void onMessage(String msg) {
+        ServerMessage base = gson.fromJson(msg, ServerMessage.class);
+        switch (base.getServerMessageType()) {
+            case LOAD_GAME    -> observer.onLoadGame(gson.fromJson(msg, LoadGameMessage.class));
+            case ERROR        -> observer.onError(gson.fromJson(msg, ErrorMessage.class));
+            case NOTIFICATION -> observer.onNotification(gson.fromJson(msg, NotificationMessage.class));
         }
     }
 
     @OnClose
-    public void onClose(Session session, CloseReason reason) {
-        this.session = null;
-    }
+    public void onClose(Session session, CloseReason reason) { this.session = null; }
 
     @OnError
-    public void onError(Session session, Throwable throwable) {
-        System.err.println("WebSocket error: " + throwable.getMessage());
+    public void onError(Session session, Throwable t) {
+        System.err.println("WS error: " + t.getMessage());
     }
 
-    public void sendCommand(UserGameCommand command) throws IOException {
-        session.getBasicRemote().sendText(gson.toJson(command));
+    public void sendConnect(String authToken, int gameID) throws IOException {
+        send(new UserGameCommand(UserGameCommand.CommandType.CONNECT, authToken, gameID));
     }
 
-    public void connect(String authToken, int gameID) throws IOException {
-        var cmd = new UserGameCommand(UserGameCommand.CommandType.CONNECT, authToken, gameID);
-        sendCommand(cmd);
+    public void sendMakeMove(String authToken, int gameID, ChessMove move) throws IOException {
+        send(new MakeMoveCommand(authToken, gameID, move));
     }
 
-    public void makeMove(String authToken, int gameID, ChessMove move) throws IOException {
-        sendCommand(new MakeMoveCommand(authToken, gameID, move));
+    public void sendLeave(String authToken, int gameID) throws IOException {
+        send(new UserGameCommand(UserGameCommand.CommandType.LEAVE, authToken, gameID));
     }
 
-    public void leave(String authToken, int gameID) throws IOException {
-        sendCommand(new UserGameCommand(UserGameCommand.CommandType.LEAVE, authToken, gameID));
-    }
-
-    public void resign(String authToken, int gameID) throws IOException {
-        sendCommand(new UserGameCommand(UserGameCommand.CommandType.RESIGN, authToken, gameID));
+    public void sendResign(String authToken, int gameID) throws IOException {
+        send(new UserGameCommand(UserGameCommand.CommandType.RESIGN, authToken, gameID));
     }
 
     public void close() throws IOException {
-        if (session != null && session.isOpen()) {
-            session.close();
-        }
+        if (session != null && session.isOpen()) session.close();
+    }
+
+    private void send(Object obj) throws IOException {
+        session.getBasicRemote().sendText(gson.toJson(obj));
     }
 }
