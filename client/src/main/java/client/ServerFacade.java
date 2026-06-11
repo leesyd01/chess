@@ -24,6 +24,10 @@ public class ServerFacade {
         this.baseUrl = "http://localhost:" + port;
     }
 
+    public String getServerUrl() {
+        return baseUrl;
+    }
+
     // auth endpoints
 
     /**
