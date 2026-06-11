@@ -16,15 +16,6 @@ public class BoardDrawer {
     private static final String HIGHLIGHT_SQUARE = SET_BG_COLOR_GREEN;
     private static final String SELECTED_SQUARE  = SET_BG_COLOR_YELLOW;
 
-//    /** draws default starting board */
-//    public static void draw(String playerColor) {
-//        boolean flipped = "BLACK".equalsIgnoreCase(playerColor);
-//        ChessBoard board = new ChessBoard();
-//        board.resetBoard();
-//        System.out.println();
-//        drawBoard(board, flipped, null, null);
-//        System.out.println();
-//    }
 
     /** draws a live board from a ChessGame */
     public static void drawGame(ChessGame game, String playerColor) {
