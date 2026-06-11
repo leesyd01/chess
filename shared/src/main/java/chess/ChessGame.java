@@ -230,6 +230,11 @@ public class ChessGame {
         return board;
     }
 
+    // phase 6
+    private boolean isOver = false;
+    public boolean isOver() { return isOver; }
+    public void setOver(boolean over) { this.isOver = over; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) { return true; }
