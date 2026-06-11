@@ -33,6 +33,9 @@ public class Server {
 
         javalin = Javalin.create(config -> {
             config.staticFiles.add("web");
+            config.jetty.modifyWebSocketServletFactory(factory -> {
+                factory.setIdleTimeout(java.time.Duration.ofMinutes(30));
+            });
         });
 
         javalin.ws("/ws", ws -> {

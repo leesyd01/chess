@@ -12,6 +12,8 @@ import websocket.messages.ServerMessage;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 @ClientEndpoint
 public class WebSocketFacade {
@@ -19,28 +21,35 @@ public class WebSocketFacade {
     private Session session;
     private final Gson gson = new Gson();
     private final ServerMessageObserver observer;
+    private final CountDownLatch connectLatch = new CountDownLatch(1);
 
     public WebSocketFacade(String serverUrl, ServerMessageObserver observer) throws Exception {
         this.observer = observer;
         String wsUrl = serverUrl.replace("http", "ws") + "/ws";
         WebSocketContainer container = ContainerProvider.getWebSocketContainer();
         container.connectToServer(this, new URI(wsUrl));
-        // wait for onOpen to fire
-        Thread.sleep(300);
+        if (!connectLatch.await(5, TimeUnit.SECONDS)) {
+            throw new Exception("WebSocket connection timed out");
+        }
     }
 
     @OnOpen
     public void onOpen(Session session) {
         this.session = session;
+        connectLatch.countDown();
     }
 
     @OnMessage
     public void onMessage(String msg) {
-        ServerMessage base = gson.fromJson(msg, ServerMessage.class);
-        switch (base.getServerMessageType()) {
-            case LOAD_GAME    -> observer.onLoadGame(gson.fromJson(msg, LoadGameMessage.class));
-            case ERROR        -> observer.onError(gson.fromJson(msg, ErrorMessage.class));
-            case NOTIFICATION -> observer.onNotification(gson.fromJson(msg, NotificationMessage.class));
+        try {
+            ServerMessage base = gson.fromJson(msg, ServerMessage.class);
+            switch (base.getServerMessageType()) {
+                case LOAD_GAME    -> observer.onLoadGame(gson.fromJson(msg, LoadGameMessage.class));
+                case ERROR        -> observer.onError(gson.fromJson(msg, ErrorMessage.class));
+                case NOTIFICATION -> observer.onNotification(gson.fromJson(msg, NotificationMessage.class));
+            }
+        } catch (Exception e) {
+            System.err.println("Error handling message: " + e.getMessage());
         }
     }
 
@@ -71,10 +80,15 @@ public class WebSocketFacade {
     }
 
     public void close() throws IOException {
-        if (session != null && session.isOpen()) { session.close(); }
+        if (session != null && session.isOpen()) {
+            session.close();
+        }
     }
 
     private void send(Object obj) throws IOException {
+        if (session == null || !session.isOpen()) {
+            throw new IOException("WebSocket not connected");
+        }
         session.getBasicRemote().sendText(gson.toJson(obj));
     }
 }
