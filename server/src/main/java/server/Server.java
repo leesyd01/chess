@@ -2,7 +2,6 @@ package server;
 
 import dataaccess.DataAccess;
 import dataaccess.DataAccessException;
-import dataaccess.MemoryDataAccess;
 import dataaccess.MySqlDataAccess;
 import handler.ClearHandler;
 import handler.GameHandler;
@@ -23,20 +22,24 @@ public class Server {
             throw new RuntimeException("Failed to initialize database: " + e.getMessage());
         }
 
-        UserHandler userHandler   = new UserHandler(new UserService(dataAccess));
-        GameHandler gameHandler   = new GameHandler(new GameService(dataAccess));
+        UserService userService = new UserService(dataAccess);
+        GameService gameService = new GameService(dataAccess);
+
+        UserHandler userHandler   = new UserHandler(userService);
+        GameHandler gameHandler   = new GameHandler(gameService);
         ClearHandler clearHandler = new ClearHandler(new ClearService(dataAccess));
 
         WebSocketHandler wsHandler = new WebSocketHandler(gameService, userService);
 
-        javalin = Javalin.create(config -> config.staticFiles.add("web"));
+        javalin = Javalin.create(config -> {
+            config.staticFiles.add("web");
+        });
 
-        // WebSocket endpoint
         javalin.ws("/ws", ws -> {
             ws.onConnect(ctx -> {});
-            es.onMessage(ctx -> wsHandler.onMessage(ctx.session, ctx.message()));
+            ws.onMessage(ctx -> wsHandler.onMessage(ctx.session, ctx.message()));
             ws.onClose(ctx -> wsHandler.onClose(ctx.session, ctx.status(), ctx.reason()));
-            es.onError(ctx -> wsHandler.onError(ctx.session, ctx.error()));
+            ws.onError(ctx -> wsHandler.onError(ctx.session, ctx.error()));
         });
 
         javalin.post("/user",      userHandler::register);

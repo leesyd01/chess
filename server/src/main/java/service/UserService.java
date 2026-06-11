@@ -76,7 +76,7 @@ public class UserService {
     public String getUsername(String authToken) throws ServiceException {
         if (authToken == null) throw new ServiceException(401, "unauthorized");
         try {
-            model.authData auth = dataAccess.getAuth(authToken);
+            model.AuthData auth = dataAccess.getAuth(authToken);
             if (auth == null) throw new ServiceException(401, "unauthorized");
             return auth.username();
         } catch (dataaccess.DataAccessException e) {
