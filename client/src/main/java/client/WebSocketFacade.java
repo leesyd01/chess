@@ -2,6 +2,7 @@ package client;
 
 import chess.ChessMove;
 import com.google.gson.Gson;
+import jakarta.websocket.*;
 import websocket.commands.MakeMoveCommand;
 import websocket.commands.UserGameCommand;
 import websocket.messages.ErrorMessage;
@@ -9,7 +10,6 @@ import websocket.messages.LoadGameMessage;
 import websocket.messages.NotificationMessage;
 import websocket.messages.ServerMessage;
 
-import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
 
@@ -43,7 +43,9 @@ public class WebSocketFacade {
     }
 
     @OnClose
-    public void onClose(Session session, CloseReason reason) { this.session = null; }
+    public void onClose(Session session, CloseReason reason) {
+        this.session = null;
+    }
 
     @OnError
     public void onError(Session session, Throwable t) {
